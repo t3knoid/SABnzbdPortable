@@ -1,5 +1,5 @@
 ---
-name: Install SABnzbd
+name: Package SABnzbd
 
 on:
   push:
@@ -9,7 +9,7 @@ on:
   workflow_dispatch:  # Manual trigger from GitHub UI
 
 jobs:
-  install:
+  build:
     runs-on: windows-latest
 
     steps:
