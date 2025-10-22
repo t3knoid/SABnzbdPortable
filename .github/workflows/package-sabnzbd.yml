@@ -1,5 +1,5 @@
 ---
-name: Package SABnzbd
+name: Package SABnzbdPortable
 
 on:
   push:
@@ -27,3 +27,14 @@ jobs:
       shell: pwsh
       run: |
         .\package.ps1
+
+    - name: Zip SABnzbdPortable folder
+      shell: pwsh
+      run: |
+        Compress-Archive -Path "SABnzbdPortable" -DestinationPath "SABnzbdPortable.zip"
+
+    - name: Upload ZIP as artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: SABnzbdPortable-${{ steps.read_version.outputs.version }}
+        path: SABnzbdPortable.zip
