@@ -40,4 +40,4 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: SABnzbdPortableInstaller
-        path: SABnzbdPortable\SABnzbdPortable_*.paf.exe
+        path: SABnzbdPortable_*.paf.exe
