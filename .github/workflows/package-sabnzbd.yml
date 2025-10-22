@@ -28,13 +28,20 @@ jobs:
       run: |
         .\package.ps1
 
-    - name: Zip SABnzbdPortable folder
-      shell: pwsh
+    - name: Download PortableApps.com Installer
       run: |
-        Compress-Archive -Path "SABnzbdPortable" -DestinationPath "SABnzbdPortable.zip"
+        Invoke-WebRequest -Uri "https://portableapps.com/downloading/?a=PortableApps.comInstaller&s=s&p=&d=pa&n=PortableApps.com%20Installer&f=PortableApps.comInstaller_3.9.5.paf.exe" -OutFile "PortableAppsInstaller.exe"
 
-    - name: Upload ZIP as artifact
+    - name: Install PortableApps.com Installer
+      run: |
+        Start-Process -FilePath ".\PortableAppsInstaller.exe" -ArgumentList "/S" -Wait
+
+    - name: Build .paf.exe installer
+      run: |
+        & "C:\Program Files (x86)\PortableApps.com\PortableApps.comInstaller\PortableApps.comInstaller.exe" SABnzbdPortable
+
+    - name: Upload .paf.exe as artifact
       uses: actions/upload-artifact@v4
       with:
-        name: SABnzbdPortable-${{ steps.read_version.outputs.version }}
-        path: SABnzbdPortable.zip
+        name: SABnzbdPortableInstaller
+        path: SABnzbdPortable\SABnzbdPortable_*.paf.exe
