@@ -50,4 +50,4 @@ Rename-Item -Path $extractedFolder -NewName $targetName
 # Cleanup
 Remove-Item $zipPath
 
-Write-Host "SABnzbd $Version installed to $targetRoot"
+Write-Host "SABnzbd $Version extracted to $targetRoot"

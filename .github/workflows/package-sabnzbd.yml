@@ -23,7 +23,7 @@ jobs:
         $version = Get-Content version.txt | Select-Object -First 1
         echo "version=$version" >> $env:GITHUB_OUTPUT
 
-    - name: Run PowerShell installer
+    - name: Run PowerShell packager
       shell: pwsh
       run: |
         .\package.ps1
