@@ -28,17 +28,13 @@ jobs:
       run: |
         .\package.ps1
 
-    - name: Download PortableApps.com Installer
+    - name: Unzip PortableApps Installer to temp
       run: |
-        Invoke-WebRequest -Uri "https://portableapps.com/downloading/?a=PortableApps.comInstaller&s=s&p=&d=pa&n=PortableApps.com%20Installer&f=PortableApps.comInstaller_3.9.5.paf.exe" -OutFile "PortableAppsInstaller.exe"
-
-    - name: Install PortableApps.com Installer
-      run: |
-        Start-Process -FilePath ".\PortableAppsInstaller.exe" -ArgumentList "/S" -Wait
+        Expand-Archive -Path "tools/PortableApps.comInstaller.zip" -DestinationPath "${{ runner.temp }}"
 
     - name: Build .paf.exe installer
       run: |
-        & "C:\Program Files (x86)\PortableApps.com\PortableApps.comInstaller\PortableApps.comInstaller.exe" SABnzbdPortable
+        & "${{ runner.temp }}\PortableApps.comInstaller\PortableApps.comInstaller.exe" "${{ github.workspace }}\SABnzbdPortable"
 
     - name: Upload .paf.exe as artifact
       uses: actions/upload-artifact@v4
