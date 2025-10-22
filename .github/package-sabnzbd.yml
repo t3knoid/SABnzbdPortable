@@ -1,0 +1,29 @@
+---
+name: Install SABnzbd
+
+on:
+  push:
+    paths:
+      - version.txt  # Trigger only when this file changes
+
+  workflow_dispatch:  # Manual trigger from GitHub UI
+
+jobs:
+  install:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Read version from version.txt
+      id: read_version
+      shell: pwsh
+      run: |
+        $version = Get-Content version.txt | Select-Object -First 1
+        echo "version=$version" >> $env:GITHUB_OUTPUT
+
+    - name: Run PowerShell installer
+      shell: pwsh
+      run: |
+        .\package.ps1
