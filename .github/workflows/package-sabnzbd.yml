@@ -34,7 +34,7 @@ jobs:
 
     - name: Prep .paf.exe installer
       run: |
-        & "${{ runner.temp }}\PortableApps.comInstaller\PortableApps.comSilentInstaller.exe" "${{ github.workspace }}\SABnzbdPortable"
+        & "${{ runner.temp }}\PortableApps.comInstaller\PortableApps.comSilentInstaller.exe" "${{ github.workspace }}\SABnzbdPortable\SABnzbdPortable"
 
     - name: Build .paf.exe installer
       run: |
