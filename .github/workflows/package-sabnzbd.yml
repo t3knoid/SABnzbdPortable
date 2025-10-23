@@ -27,11 +27,6 @@ jobs:
       shell: pwsh
       run: |
         .\package.ps1
-
-    - name: Show directory structure
-      shell: pwsh
-      run: |
-        Get-ChildItem -Recurse | Select-Object FullName
     
     - name: Unzip PortableApps Installer to temp
       run: |
