@@ -28,17 +28,22 @@ jobs:
       run: |
         .\package.ps1
 
+    - name: Show directory structure
+      shell: pwsh
+      run: |
+        Get-ChildItem -Recurse | Select-Object FullName
+    
     - name: Unzip PortableApps Installer to temp
       run: |
         Expand-Archive -Path "tools/PortableApps.comInstaller.zip" -DestinationPath "${{ runner.temp }}"
 
     - name: Prep .paf.exe installer
       run: |
-        & "${{ runner.temp }}\PortableApps.comInstaller\PortableApps.comSilentInstaller.exe" "${{ github.workspace }}\SABnzbdPortable\SABnzbdPortable"
+        & "${{ runner.temp }}\PortableApps.comInstaller\PortableApps.comSilentInstaller.exe" "${{ github.workspace }}\SABnzbdPortable"
 
     - name: Build .paf.exe installer
       run: |
-        & "${{ runner.temp }}\PortableApps.comInstaller\App\nsis\makensis.exe" "${{ github.workspace }}\SABnzbdPortable\SABnzbdPortable\Other\Source\PortableApps.comInstaller.nsi"
+        & "${{ runner.temp }}\PortableApps.comInstaller\App\nsis\makensis.exe" "${{ github.workspace }}\SABnzbdPortable\Other\Source\PortableApps.comInstaller.nsi"
 
     - name: Upload .paf.exe as artifact
       uses: actions/upload-artifact@v4
