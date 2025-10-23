@@ -2,3 +2,6 @@ SABnzbdPortable/App/SABnzbdPortable/**
 SABnzbdPortable/App/AppInfo/appicon.ico
 SABnzbdPortable/App/Readme.txt
 SABnzbdPortable_*.paf.exe
+**/PortableApps.comInstaller/**
+*.log
+SABnzbdPortable/App/AppInfo/pac_installer_log.ini
