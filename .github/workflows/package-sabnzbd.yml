@@ -40,10 +40,6 @@ jobs:
     - name: Generate release manifest
       shell: pwsh
       run: |
-        $version = "${{ steps.read_version.outputs.version }}"
-        $build   = "${{ github.run_number }}"
-        $tag     = "${{ steps.tag.outputs.tag }}"
-
         $manifest  = @{
           version  = $version
           build    = $build
