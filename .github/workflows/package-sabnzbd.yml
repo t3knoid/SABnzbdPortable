@@ -11,6 +11,10 @@ on:
 jobs:
   build:
     runs-on: windows-latest
+    outputs:
+      version: ${{ steps.read_version.outputs.version }}
+      build:  ${{ steps.generate_tag.outputs.build }}
+      tag: ${{ steps.generate_tag.outputs.tag }}
 
     steps:
     - name: Checkout repository
@@ -22,6 +26,32 @@ jobs:
       run: |
         $version = Get-Content version.txt | Select-Object -First 1
         echo "version=$version" >> $env:GITHUB_OUTPUT
+
+    - name: Generate build number and tag
+      id: generate_tag
+      shell: pwsh
+      run: |
+        $version = "${{ steps.read_version.outputs.version }}"
+        $build = "${{ github.run_number }}"
+        $tag = "v$version.$build"
+        echo "build=$build" >> $env:GITHUB_OUTPUT
+        echo "tag=$tag" >> $env:GITHUB_OUTPUT
+
+    - name: Generate release manifest
+      shell: pwsh
+      run: |
+        $version = "${{ steps.read_version.outputs.version }}"
+        $build   = "${{ github.run_number }}"
+        $tag     = "${{ steps.tag.outputs.tag }}"
+
+        $manifest  = @{
+          version  = $version
+          build    = $build
+          tag      = $tag
+          artifact = "SABnzbdPortableInstaller"
+        } | ConvertTo-Json -Depth 2
+
+        $manifest | Set-Content release-manifest.json
 
     - name: Run PowerShell packager
       shell: pwsh
@@ -40,8 +70,16 @@ jobs:
       run: |
         & "${{ runner.temp }}\PortableApps.comInstaller\App\nsis\makensis.exe" "${{ github.workspace }}\SABnzbdPortable\Other\Source\PortableApps.comInstaller.nsi"
 
-    - name: Upload .paf.exe as artifact
+    - name: Upload release manifest
+      uses: actions/upload-artifact@v4
+      with:
+        name: release-manifest
+        path: release-manifest.json
+
+    - name: Upload .paf.exe and manifest as artifact
       uses: actions/upload-artifact@v4
       with:
         name: SABnzbdPortableInstaller
-        path: SABnzbdPortable_*.paf.exe
+        path: |
+          SABnzbdPortable_*.paf.exe
+          release-manifest.json
