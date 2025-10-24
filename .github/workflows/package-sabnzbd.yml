@@ -41,9 +41,9 @@ jobs:
       shell: pwsh
       run: |
         $manifest  = @{
-          version  = $version
-          build    = $build
-          tag      = $tag
+          version  = "${{ steps.read_version.outputs.version }}"
+          build    = "${{ steps.generate_tag.outputs.build }}"
+          tag      = "${{ steps.generate_tag.outputs.tag }}"
           artifact = "SABnzbdPortableInstaller"
         } | ConvertTo-Json -Depth 2
 
