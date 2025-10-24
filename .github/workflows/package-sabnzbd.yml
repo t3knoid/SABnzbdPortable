@@ -33,7 +33,7 @@ jobs:
       run: |
         $version = "${{ steps.read_version.outputs.version }}"
         $build = "${{ github.run_number }}"
-        $tag = "v$($version).$($build)"
+        $tag = "${{ steps.read_version.outputs.version }}.${{ github.run_number }}"
         echo "build=$build" >> $env:GITHUB_OUTPUT
         echo "tag=$tag" >> $env:GITHUB_OUTPUT
 
