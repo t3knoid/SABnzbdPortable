@@ -33,7 +33,7 @@ jobs:
       run: |
         $version = "${{ steps.read_version.outputs.version }}"
         $build = "${{ github.run_number }}"
-        $tag = "v$version.$build"
+        $tag = "v$($version).$($build)"
         echo "build=$build" >> $env:GITHUB_OUTPUT
         echo "tag=$tag" >> $env:GITHUB_OUTPUT
 
@@ -65,6 +65,7 @@ jobs:
     - name: Prep .paf.exe installer
       run: |
         & "${{ runner.temp }}\PortableApps.comInstaller\PortableApps.comSilentInstaller.exe" "${{ github.workspace }}\SABnzbdPortable"
+        Start-Sleep -Seconds 10
 
     - name: Build .paf.exe installer
       run: |
