@@ -34,14 +34,14 @@ jobs:
               uses: actions/download-artifact@v4
               with:
                 name: SABnzbdPortableInstaller
-                path: ./release
+                path: ./artifacts
                 run-id: ${{ steps.resolve_run.outputs.run_id }}
 
             - name: Parse release-manifest.json
               id: metadata
               shell: bash
               run: |
-                manifest="./release/release-manifest.json"
+                manifest="./artifacts/release-manifest.json"
                 version=$(jq -r .version "$manifest")
                 build=$(jq -r .build "$manifest")
                 tag=$(jq -r .tag "$manifest")
@@ -68,5 +68,5 @@ jobs:
                 tag_name: ${{ steps.metadata.outputs.tag }}
                 name: ${{ steps.metadata.outputs.artifact }}
                 files: |
-                    ./artifacts/SABnzbdPortable_*.paf.exe
-                    ./artifacts/release-manifest.json
+                    ./release/SABnzbdPortable_*.paf.exe
+                    ./release/release-manifest.json
