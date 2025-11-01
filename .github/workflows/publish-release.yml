@@ -31,11 +31,17 @@ jobs:
                     }
 
             - name: Download release artifact along with manifest
-              uses: actions/download-artifact@v4
-              with:
-                name: SABnzbdPortableInstaller
-                path: release
-                run-id: ${{ steps.resolve_run.outputs.run_id }}
+              env:
+                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              run: |
+                echo "🔍 Downloading artifact from workflow run: ${{ steps.resolve_run.outputs.run_id }}"
+                mkdir -p release
+                gh run download ${{ steps.resolve_run.outputs.run_id }} \
+                  -n SABnzbdPortableInstaller \
+                  -D release
+
+                echo "✅ Artifact contents:"
+                ls -R release
 
             - name: Parse release-manifest.json
               id: metadata
