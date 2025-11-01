@@ -34,6 +34,7 @@ jobs:
               uses: actions/download-artifact@v4
               with:
                 name: SABnzbdPortableInstaller
+                path: artifacts
                 run-id: ${{ steps.resolve_run.outputs.run_id }}
 
             - name: Parse release-manifest.json
