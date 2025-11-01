@@ -39,7 +39,7 @@ Write-Host "Extracting to $targetRoot..."
 Expand-Archive -Path $zipPath -DestinationPath $targetRoot -Force
 
 # Rename extracted folder
-$extractedFolder = Join-Path $basePath "SABnzbd-$Version"
+$extractedFolder = Join-Path $basePath "SABnzbd"
 $finalPath = Join-Path $basePath $targetName
 
 if (Test-Path $finalPath) {
