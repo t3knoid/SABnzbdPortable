@@ -33,15 +33,14 @@ jobs:
             - name: Download release artifact along with manifest
               uses: actions/download-artifact@v4
               with:
-                name: SABnzbdPortableInstaller.zip
-                path: ./artifacts
+                name: SABnzbdPortableInstaller
                 run-id: ${{ steps.resolve_run.outputs.run_id }}
 
             - name: Parse release-manifest.json
               id: metadata
               shell: bash
               run: |
-                manifest="./artifacts/release-manifest.json"
+                manifest="release-manifest.json"
                 version=$(jq -r .version "$manifest")
                 build=$(jq -r .build "$manifest")
                 tag=$(jq -r .tag "$manifest")
