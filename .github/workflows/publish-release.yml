@@ -4,6 +4,9 @@ name: Publish Release
 on:
   workflow_dispatch:
 
+permissions:
+  contents: write  # Enables release creation, tag pushing, and repo write access
+
 jobs:
     publish:
         runs-on: ubuntu-latest
